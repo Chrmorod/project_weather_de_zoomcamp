@@ -22,11 +22,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Debug app folder
+      - name: Build Streamlit image
         run: |
-          ls -la ./weather
-          ls -la ./weather/app
-
+          docker build \
+            -t ghcr.io/chrmorod/project_weather_de_zoomcamp/streamlit:latest \
+            -f ./weather/app/Dockerfile \
+            ./weather
       - name: Push Streamlit image
         run: |
           docker push ghcr.io/${{ github.repository }}/streamlit:latest
