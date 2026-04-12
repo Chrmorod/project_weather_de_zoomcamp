@@ -64,4 +64,4 @@ jobs:
 
       - name: Validate docker compose
         run: |
-          docker compose -f ./weather/docker-compose.yml config
+          docker compose -f ../../weather/docker-compose.yml config
