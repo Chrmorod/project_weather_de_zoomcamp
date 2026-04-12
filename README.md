@@ -225,16 +225,16 @@ Typical flow:
 
 Kestra Flow is:
 
-![Kestra Flow](./images/Kestra_flow.png)
+![Kestra Flow](./weather/images/Kestra_flow.png)
 
 And the structure is:
-![Kestra Flow](./images/files_kestra.png)
+![Kestra Flow](./weather/images/files_kestra.png)
 ---
 
 ## Dashboard (Streamlit)
-![Streamlit](./images/dashboard_part1.png)
+![Streamlit](./weather/images/dashboard_part1.png)
 
-![Streamlit](./images/dashboard_part2.png)
+![Streamlit](./weather/images/dashboard_part2.png)
 
 
 ### Features
@@ -266,7 +266,7 @@ And the structure is:
 
 ## Author
 
-Christian Molina - Data Engineering Zoomcamp Project
+Christian Molina - Data Engineering Zoomcamp Project 
 
 ---
 
