@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Streamlit image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/project_weather_de_zoomcamp/streamlit:latest -f app/Dockerfile .
+          docker build -t ghcr.io/chrmorod/project_weather_de_zoomcamp/streamlit:latest -f app/Dockerfile .
 
       - name: Push Streamlit image
         run: |
