@@ -74,8 +74,16 @@ weather/
 ```bash
 git clone <your-repo-url>
 cd weather
+touch .env
 ```
 
+Write next parameters with Base64 Codification:
+
+```bash
+SECRET_PG_USERNAME=
+SECRET_PG_PASSWORD= 
+SECRET_OPENWEATHER_API_KEY=
+```
 ---
 
 ### 2. Start services with Docker
