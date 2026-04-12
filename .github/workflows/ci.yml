@@ -63,5 +63,5 @@ jobs:
         uses: actions/checkout@v4
       - name: Validate docker compose
         run: |
-          docker compose -f ./weather/docker-compose.yml config
+          docker compose -f ./weather/docker-compose.yaml config
 
