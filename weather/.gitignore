@@ -1,0 +1,127 @@
+# =========================
+
+# Sensitive data
+
+# =========================
+
+.env
+.env.*
+*.env
+
+# Secrets / credentials
+
+secrets.yml
+secrets.yaml
+*.pem
+*.key
+*.crt
+
+# =========================
+
+# Python
+
+# =========================
+
+**pycache**/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+
+venv/
+.venv/
+env/
+ENV/
+
+# Jupyter
+
+.ipynb_checkpoints/
+
+# =========================
+
+# Docker
+
+# =========================
+
+*.log
+docker-compose.override.yml
+
+# =========================
+
+# dbt
+
+# =========================
+
+dbt_packages/
+target/
+logs/
+dbt.log
+
+# =========================
+
+# Kestra
+
+# =========================
+
+kestra_data/
+kestra_tmp/
+
+# (si en algún momento los creas como carpetas locales)
+
+storage/
+tmp/
+
+# =========================
+
+# PostgreSQL / DB data
+
+# =========================
+
+*.db
+*.sqlite
+*.sqlite3
+
+# Dumps
+
+*.sql
+*.dump
+
+# =========================
+
+# Streamlit
+
+# =========================
+
+.streamlit/secrets.toml
+
+# =========================
+
+# Testing / coverage
+
+# =========================
+
+.coverage
+coverage.xml
+htmlcov/
+
+# =========================
+
+# IDE / OS
+
+# =========================
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# =========================
+
+# Misc
+
+# =========================
+
+*.tmp
+*.swp
+*~
