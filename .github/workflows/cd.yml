@@ -21,10 +21,11 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build Streamlit image
+          
+      - name: Debug app folder
         run: |
-          docker build -t ghcr.io/chrmorod/project_weather_de_zoomcamp/streamlit:latest -f weather/app/Dockerfile .
+          ls -la ./weather
+          ls -la ./weather/app
 
       - name: Push Streamlit image
         run: |
