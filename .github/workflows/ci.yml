@@ -51,6 +51,12 @@ jobs:
 
       - name: Validate dbt project
         working-directory: ./weather/dbt/weather_project
+        env:
+          PG_HOST: localhost
+          PG_PORT: "5432"
+          PG_DB: weather
+          PG_USER: root
+          PG_PASSWORD: root
         run: |
           dbt deps
           dbt parse --profiles-dir .
