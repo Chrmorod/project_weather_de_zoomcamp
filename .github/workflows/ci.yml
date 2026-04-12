@@ -50,7 +50,7 @@ jobs:
           pip install dbt-postgres
 
       - name: Validate dbt project
-        working-directory: dbt/weather_project
+        working-directory: ./weather/dbt/weather_project
         run: |
           dbt deps
           dbt parse --profiles-dir .
