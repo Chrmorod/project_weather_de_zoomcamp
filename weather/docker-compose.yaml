@@ -1,0 +1,126 @@
+volumes:
+  weather_postgres_data:
+  kestra_postgres_data:
+  kestra_data:
+  kestra_tmp:
+
+services:
+  pgdatabase:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: weather
+    ports:
+      - "5434:5432"
+    volumes:
+      - weather_postgres_data:/var/lib/postgresql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8085:80"
+    depends_on:
+      - pgdatabase
+
+  kestra_postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: kestra
+      POSTGRES_USER: kestra
+      POSTGRES_PASSWORD: k3str4
+    ports:
+      - "5435:5432"
+    volumes:
+      - kestra_postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  kestra:
+    image: kestra/kestra:v1.1
+    pull_policy: always
+    user: "root"
+    command: ["server", "standalone"]
+    ports:
+      - "8090:8080"
+    volumes:
+      - kestra_data:/app/storage
+      - ./kestra:/app/flows
+      - ./dbt:/app/files
+      - /var/run/docker.sock:/var/run/docker.sock
+      - kestra_tmp:/tmp/kestra-wd
+    environment:
+      SECRET_PG_USERNAME: ${SECRET_PG_USERNAME}
+      SECRET_PG_PASSWORD: ${SECRET_PG_PASSWORD}
+      SECRET_OPENWEATHER_API_KEY: ${SECRET_OPENWEATHER_API_KEY}
+      KESTRA_CONFIGURATION: |
+        datasources:
+          postgres:
+            url: jdbc:postgresql://kestra_postgres:5432/kestra
+            driverClassName: org.postgresql.Driver
+            username: kestra
+            password: k3str4
+        micronaut:
+          io:
+            watch:
+              enabled: true
+              paths:
+                - /app/flows
+        kestra:
+          server:
+            basicAuth:
+              username: "admin@kestra.io"
+              password: Admin1234!
+          repository:
+            type: postgres
+          storage:
+            type: local
+            local:
+              basePath: "/app/storage"
+          queue:
+            type: postgres
+          tasks:
+            tmpDir:
+              path: /tmp/kestra-wd/tmp
+          url: http://localhost:8090/
+    depends_on:
+      - kestra_postgres
+
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-postgres:latest
+    working_dir: /usr/app
+    volumes:
+      - ./dbt/weather_project:/usr/app
+    environment:
+      DBT_PROFILES_DIR: /usr/app
+      PG_HOST: pgdatabase
+      PG_PORT: 5432
+      PG_USER: root
+      PG_PASSWORD: root
+      PG_DB: weather
+      DBT_SCHEMA: staging
+    depends_on:
+      - pgdatabase
+    command: ["dbt", "debug"]
+  streamlit:
+    image: python:3.11-slim
+    container_name: streamlit_weather
+    working_dir: /app
+    command: >
+      sh -c "pip install --no-cache-dir streamlit sqlalchemy psycopg2-binary pandas altair pydeck &&
+             streamlit run app/streamlit_app.py --server.address=0.0.0.0 --server.port=8501"
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./:/app
+
+    environment:
+      STREAMLIT_DB_URL: postgresql+psycopg2://root:root@pgdatabase:5432/weather
+    depends_on:
+      - pgdatabase
