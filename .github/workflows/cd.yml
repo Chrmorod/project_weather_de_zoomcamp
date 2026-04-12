@@ -23,14 +23,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Build Streamlit image
-        run: |
-          docker build \
-            -t ghcr.io/chrmorod/project_weather_de_zoomcamp/streamlit:latest \
-            -f ./weather/app/Dockerfile \
-            ./weather
-      - name: Push Streamlit image
-        run: |
-          docker push ghcr.io/${{ github.repository }}/streamlit:latest
+        run: docker build -t ghcr.io/chrmorod/project_weather_de_zoomcamp/streamlit:latest -f ./weather/app/Dockerfile ./weather
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-push-streamlit
