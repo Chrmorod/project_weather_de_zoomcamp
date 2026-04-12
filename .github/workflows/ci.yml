@@ -61,7 +61,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Validate docker compose
+      - name: Debug files
         run: |
-          docker compose -f ../../weather/docker-compose.yml config
+          pwd
+          ls -la
+
