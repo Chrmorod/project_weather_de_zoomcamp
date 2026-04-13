@@ -1,0 +1,5 @@
+sources:
+  - name: weather_raw
+    schema: raw
+    tables:
+      - name: weather_api
