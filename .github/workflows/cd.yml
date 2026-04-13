@@ -5,6 +5,7 @@ on:
     branches: ["main"]
 
 env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   IMAGE_NAME: ghcr.io/chrmorod/project_weather_de_zoomcamp/streamlit:latest
 
 jobs:
@@ -26,11 +27,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Debug structure
+      - name: Debug project structure
         run: |
+          pwd
           ls -la
           ls -la ./weather
           ls -la ./weather/app
+          echo "----- Dockerfile -----"
+          cat ./weather/app/Dockerfile
 
       - name: Build Docker image
         run: |
