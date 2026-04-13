@@ -79,7 +79,7 @@ touch .env
 
 Write next parameters with Base64 Codification:
 
-Open [openweathermap]([https://example.com](https://home.openweathermap.org/api_keys) and register to get the API Key and paste in SECRET_OPENWEATHER_API_KEY
+Open [openweathermap](https://home.openweathermap.org/api_keys) and register to get the API Key and paste in SECRET_OPENWEATHER_API_KEY
 
 ```bash
 SECRET_PG_USERNAME=
